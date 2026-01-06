@@ -452,6 +452,10 @@ async def health_check():
     return {"status": "healthy", "database": "connected"}
 
 
+# Vercel serverless handler
+from mangum import Mangum
+handler = Mangum(app)
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8888)
