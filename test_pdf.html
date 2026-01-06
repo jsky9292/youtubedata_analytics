@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube 채널 분석 보고서 - [회생변호사] 다시 박시형입니다.</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f9f9f9;
+            color: #0f0f0f;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+        .report-container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+        /* 표지 */
+        .cover {
+            background: linear-gradient(135deg, #282828 0%, #1a1a1a 100%);
+            color: white;
+            padding: 60px 40px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        .cover::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0;
+            width: 300px; height: 300px;
+            background: #FF0000;
+            opacity: 0.1;
+            border-radius: 50%;
+            transform: translate(50%, -50%);
+        }
+        .cover-badge {
+            display: inline-block;
+            background: #FF0000;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        .cover h1 { font-size: 36px; font-weight: 700; margin-bottom: 12px; }
+        .cover-channel { font-size: 24px; opacity: 0.9; margin-bottom: 30px; }
+        .cover-meta { display: flex; gap: 30px; font-size: 14px; opacity: 0.7; flex-wrap: wrap; }
+
+        /* 섹션 */
+        .section {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #282828;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 3px solid #FF0000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* 알고리즘 헬스 카드 */
+        .algorithm-health {
+            background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .algorithm-health h3 { font-size: 18px; margin-bottom: 10px; opacity: 0.9; }
+        .algorithm-health .score { font-size: 48px; font-weight: 700; }
+        .algorithm-health .status { font-size: 20px; margin-top: 10px; }
+
+        /* 지표 그리드 */
+        .metrics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+        .metric-card {
+            text-align: center;
+            padding: 24px 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e5e5e5;
+        }
+        .metric-card .value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FF0000;
+            margin-bottom: 4px;
+        }
+        .metric-card .label { font-size: 13px; color: #606060; }
+        .metric-card .benchmark {
+            font-size: 11px;
+            margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #f9f9f9;
+        }
+        .metric-card .benchmark.good { background: #e8f5e9; color: #2e7d32; }
+        .metric-card .benchmark.warn { background: #fff3e0; color: #f57c00; }
+        .metric-card .benchmark.bad { background: #ffebee; color: #c62828; }
+
+        /* 분류 그리드 */
+        .classification-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 30px; }
+        .class-card {
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .class-card.viral { background: linear-gradient(135deg, #ffebee, #fff); border: 2px solid #FF0000; }
+        .class-card.hit { background: linear-gradient(135deg, #fff3e0, #fff); border: 2px solid #ff9800; }
+        .class-card.average { background: linear-gradient(135deg, #e3f2fd, #fff); border: 2px solid #2196f3; }
+        .class-card.underperform { background: linear-gradient(135deg, #fafafa, #fff); border: 2px solid #9e9e9e; }
+        .class-card .emoji { font-size: 32px; margin-bottom: 8px; }
+        .class-card .count { font-size: 36px; font-weight: 700; }
+        .class-card .title { font-size: 14px; font-weight: 600; margin-top: 4px; }
+        .class-card .stats { font-size: 12px; color: #606060; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(0,0,0,0.1); }
+
+        /* 트렌드 박스 */
+        .trend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+        .trend-box {
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            border-left: 4px solid;
+        }
+        .trend-box.up { border-color: #2e7d32; }
+        .trend-box.down { border-color: #c62828; }
+        .trend-box.stable { border-color: #f57c00; }
+        .trend-box h4 { font-size: 14px; color: #606060; margin-bottom: 8px; }
+        .trend-box .values { display: flex; align-items: center; gap: 12px; }
+        .trend-box .old { color: #606060; }
+        .trend-box .arrow { font-size: 20px; }
+        .trend-box .new { font-weight: 700; font-size: 18px; }
+        .trend-box .change { font-size: 14px; margin-top: 8px; }
+        .trend-box .change.positive { color: #2e7d32; }
+        .trend-box .change.negative { color: #c62828; }
+
+        /* 비디오 카드 */
+        .video-card {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 20px;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            align-items: start;
+        }
+        .video-thumb {
+            width: 120px;
+            height: 68px;
+            border-radius: 8px;
+            background: #ddd;
+            overflow: hidden;
+        }
+        .video-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        .video-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; line-height: 1.4; }
+        .video-metrics { display: flex; flex-wrap: wrap; gap: 16px; margin: 12px 0; }
+        .video-metric {
+            display: flex;
+            flex-direction: column;
+            font-size: 13px;
+        }
+        .video-metric .val { font-weight: 700; color: #282828; }
+        .video-metric .lbl { color: #606060; font-size: 11px; }
+        .video-score {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .video-score.viral { background: #FF0000; color: white; }
+        .video-score.hit { background: #ff9800; color: white; }
+        .video-score.average { background: #2196f3; color: white; }
+        .video-score.underperform { background: #9e9e9e; color: white; }
+        .video-reasons {
+            margin-top: 12px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .video-reasons ul { list-style: none; padding: 0; margin: 0; }
+        .video-reasons li { padding: 4px 0; padding-left: 20px; position: relative; }
+        .video-reasons li::before { content: '→'; position: absolute; left: 0; color: #FF0000; }
+
+        /* 추천사항 */
+        .recommendation {
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            border-left: 5px solid;
+        }
+        .recommendation.critical { background: linear-gradient(90deg, #ffebee, #fff); border-color: #c62828; }
+        .recommendation.high { background: linear-gradient(90deg, #fff3e0, #fff); border-color: #f57c00; }
+        .recommendation.medium { background: linear-gradient(90deg, #e3f2fd, #fff); border-color: #2196f3; }
+        .recommendation h4 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+        .recommendation .targets { font-size: 13px; color: #606060; margin-bottom: 12px; }
+        .recommendation ul { margin-left: 20px; }
+        .recommendation li { margin-bottom: 8px; }
+
+        /* 차트 */
+        .chart-container { height: 280px; margin: 20px 0; }
+        .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+        /* 분포 바 */
+        .dist-bar { display: flex; height: 40px; border-radius: 8px; overflow: hidden; margin: 16px 0; }
+        .dist-segment { display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: 600; }
+
+        /* 테이블 */
+        .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .data-table th, .data-table td { padding: 14px; border: 1px solid #e5e5e5; }
+        .data-table th { background: #282828; color: white; font-weight: 600; }
+        .data-table tr:nth-child(even) { background: #f9f9f9; }
+        .data-table .score-cell { font-weight: 700; }
+
+        /* PDF 버튼 */
+        .pdf-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+        .pdf-btn {
+            background: #FF0000;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255,0,0,0.3);
+        }
+        .pdf-btn:hover { background: #cc0000; }
+
+        /* 페이지 구분 */
+        .page-break { page-break-before: always; }
+
+        @media print {
+            body { background: white; }
+            .section { box-shadow: none; border: 1px solid #e5e5e5; }
+            .pdf-controls { display: none !important; }
+            .cover { break-after: page; }
+        }
+
+        @media (max-width: 768px) {
+            .classification-grid { grid-template-columns: repeat(2, 1fr); }
+            .chart-row { grid-template-columns: 1fr; }
+            .video-card { grid-template-columns: 1fr; }
+            .video-thumb { width: 100%; height: auto; aspect-ratio: 16/9; }
+        }
+    </style>
+</head>
+<body>
+<div class="report-container">
+
+    <div class="pdf-controls">
+        <button class="pdf-btn" onclick="window.print()">PDF 다운로드</button>
+    </div>
+
+    <!-- 표지 -->
+    <div class="cover">
+        <span class="cover-badge">YouTube Analytics Report v3.0</span>
+        <h1>채널 심층 분석 보고서</h1>
+        <p class="cover-channel">[회생변호사] 다시 박시형입니다.</p>
+        <div class="cover-meta">
+            <span>분석일: 2026년 01월 07일</span>
+            <span>분석 영상: 50개</span>
+            <span>구독자: 17.1K</span>
+        </div>
+    </div>
+
+    <!-- 알고리즘 헬스 체크 -->
+    
+        <div class="algorithm-health">
+            <h3>YouTube 알고리즘 건강도</h3>
+            <div class="status">보통 - 개선 여지 있음</div>
+            <div style="margin-top:20px;display:flex;justify-content:center;gap:40px;">
+                <div>
+                    <div style="font-size:24px;font-weight:700;">3.39%</div>
+                    <div style="opacity:0.8;font-size:13px;">평균 참여율</div>
+                </div>
+                <div>
+                    <div style="font-size:24px;font-weight:700;">2.79%</div>
+                    <div style="opacity:0.8;font-size:13px;">좋아요 비율</div>
+                </div>
+                <div>
+                    <div style="font-size:24px;font-weight:700;">32</div>
+                    <div style="opacity:0.8;font-size:13px;">일평균 조회속도</div>
+                </div>
+            </div>
+        </div>
+        <div class="section" style="margin-top:-10px;">
+            <h3 style="font-size:16px;margin-bottom:16px;">알고리즘 신호 분석</h3>
+            <p style="color:#666;">신호 분석 데이터가 없습니다.</p>
+        </div>
+
+    <!-- 핵심 지표 요약 -->
+    <div class="section">
+        <h2 class="section-title">핵심 지표 요약</h2>
+        
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="value">17.1K</div>
+                <div class="label">총 구독자</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">50</div>
+                <div class="label">분석 영상</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">1.9K</div>
+                <div class="label">평균 조회수</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">32</div>
+                <div class="label">조회 속도 (일평균)</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">3.39%</div>
+                <div class="label">참여율</div>
+                <div class="benchmark warn">평균</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">2.79%</div>
+                <div class="label">좋아요 비율</div>
+                <div class="benchmark warn">평균</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 영상 성과 분류 -->
+    <div class="section">
+        <h2 class="section-title">영상 성과 분류</h2>
+        <div class="classification-grid">
+            <div class="class-card viral">
+                <div class="count" style="color:#FF0000">9</div>
+                <div class="title">바이럴</div>
+                <div class="stats">
+                    조회 2.7K<br>
+                    속도 89/일<br>
+                    점수 65
+                </div>
+            </div>
+            <div class="class-card hit">
+                <div class="count" style="color:#ff9800">8</div>
+                <div class="title">히트</div>
+                <div class="stats">
+                    조회 1.6K<br>
+                    속도 25/일<br>
+                    점수 56
+                </div>
+            </div>
+            <div class="class-card average">
+                <div class="count" style="color:#2196f3">14</div>
+                <div class="title">평균</div>
+                <div class="stats">
+                    조회 1.7K<br>
+                    속도 18/일<br>
+                    점수 50
+                </div>
+            </div>
+            <div class="class-card underperform">
+                <div class="count" style="color:#9e9e9e">19</div>
+                <div class="title">저조</div>
+                <div class="stats">
+                    조회 1.7K<br>
+                    속도 18/일<br>
+                    점수 42
+                </div>
+            </div></div>
+        <div class="chart-container" style="height:250px;">
+            <canvas id="classificationChart"></canvas>
+        </div>
+    </div>
+
+    <!-- 트렌드 분석 -->
+    <div class="section">
+        <h2 class="section-title">트렌드 분석 (최근 vs 과거)</h2>
+        <div class="trend-grid">
+            <div class="trend-box up">
+                <h4>조회 속도 (핵심!)</h4>
+                <div class="values">
+                    <span class="old">14/일</span>
+                    <span class="arrow">→</span>
+                    <span class="new">50/일</span>
+                </div>
+                <div class="change positive">+265.0% 급성장 중! 알고리즘 추천 가능성 높아지고 있음</div>
+            </div>
+            <div class="trend-box up">
+                <h4>참여율</h4>
+                <div class="values">
+                    <span class="old">2.86%</span>
+                    <span class="arrow">→</span>
+                    <span class="new">3.93%</span>
+                </div>
+                <div class="change positive">+37.4% (평균)</div>
+            </div>
+            <div class="trend-box stable">
+                <h4>제목 길이</h4>
+                <div class="values">
+                    <span class="old">29자</span>
+                    <span class="arrow">→</span>
+                    <span class="new">34자</span>
+                </div>
+                <div class="change">30-50자 권장</div>
+            </div>
+            <div class="trend-box stable">
+                <h4>제목 CTR 점수</h4>
+                <div class="values">
+                    <span class="old">58점</span>
+                    <span class="arrow">→</span>
+                    <span class="new">61점</span>
+                </div>
+                <div class="change">+3점 변화</div>
+            </div>
+            <div class="trend-box up">
+                <h4>성공 영상 비율</h4>
+                <div class="values">
+                    <span class="old">24%</span>
+                    <span class="arrow">→</span>
+                    <span class="new">44%</span>
+                </div>
+                <div class="change positive">+20.0%p</div>
+            </div></div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- 성공 영상 분석 -->
+    <div class="section">
+        <h2 class="section-title">잘 터진 영상 분석</h2>
+        
+        <div class="metrics-grid" style="margin-bottom:30px;">
+            <div class="metric-card">
+                <div class="value">17</div>
+                <div class="label">성공 영상 수</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">2.2K</div>
+                <div class="label">평균 조회수</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">59</div>
+                <div class="label">평균 조회속도</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">6.39%</div>
+                <div class="label">평균 참여율</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">61</div>
+                <div class="label">평균 알고리즘 점수</div>
+            </div>
+        </div>
+
+        <h3 style="font-size:16px;margin-bottom:16px;">TOP 성과 영상</h3>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/ogGxy0mJc9c/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>빚 감당이 어렵다고? #shorts</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">4.4K</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">37/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">10.52%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">10.04%</span>
+                            <span class="lbl">좋아요율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">50점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score viral">알고리즘 점수: 71</span>
+                    <div class="video-reasons">
+                        <strong>성공 요인:</strong>
+                        <ul><li>높은 참여율 (10.52%)</li><li>높은 만족도 (좋아요 10.04%)</li><li>활발한 댓글 소통 (0.48%)</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/APvR1u-L9-E/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>나라에서 싫어하는 영상, 기업 대표들이 책임경영이행약정에서 벗어나는 방법</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">101</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">25/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">16.83%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">13.86%</span>
+                            <span class="lbl">좋아요율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">66점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score viral">알고리즘 점수: 70</span>
+                    <div class="video-reasons">
+                        <strong>성공 요인:</strong>
+                        <ul><li>높은 참여율 (16.83%)</li><li>높은 만족도 (좋아요 13.86%)</li><li>활발한 댓글 소통 (2.97%)</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/VZ1vpnHQFl4/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>3,000건의 회생·파산 상담, 돈이 안 모이는 사람은 딱 이 습관이 있습니다</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">64</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">32/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">23.44%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">17.19%</span>
+                            <span class="lbl">좋아요율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">60점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score viral">알고리즘 점수: 70</span>
+                    <div class="video-reasons">
+                        <strong>성공 요인:</strong>
+                        <ul><li>높은 참여율 (23.44%)</li><li>높은 만족도 (좋아요 17.19%)</li><li>활발한 댓글 소통 (6.25%)</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/ikEiggIHEKI/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>개인회생으로 불이익 생긴다는 오해! 영상 하나로 정리해드립니다!</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">284</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">2/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">8.45%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">7.75%</span>
+                            <span class="lbl">좋아요율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">60점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score viral">알고리즘 점수: 67</span>
+                    <div class="video-reasons">
+                        <strong>성공 요인:</strong>
+                        <ul><li>높은 참여율 (8.45%)</li><li>높은 만족도 (좋아요 7.75%)</li><li>활발한 댓글 소통 (0.70%)</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/qgTlWCbxfyw/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>연금만으로 빚 못 갚습니다… 50·60대 꼭 보세요</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">264</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">2/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">9.47%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">6.82%</span>
+                            <span class="lbl">좋아요율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">55점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score viral">알고리즘 점수: 67</span>
+                    <div class="video-reasons">
+                        <strong>성공 요인:</strong>
+                        <ul><li>높은 참여율 (9.47%)</li><li>높은 만족도 (좋아요 6.82%)</li><li>활발한 댓글 소통 (2.65%)</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:24px;padding:20px;background:#f9f9f9;border-radius:12px;border-left:4px solid #2e7d32;">
+                <h4 style="color:#2e7d32;margin-bottom:12px;">성공 영상 공통 패턴</h4>
+                <ul style="margin-left:20px;"><li style='margin-bottom:6px;'>✓ 최적 제목 길이 유지 (평균 34자)</li><li style='margin-bottom:6px;'>✓ 숫자 활용 (47%) - CTR 향상 효과</li><li style='margin-bottom:6px;'>✓ 질문형 제목 사용 (29%) - 호기심 유발</li><li style='margin-bottom:6px;'>✓ 높은 조회 속도 (평균 59회/일)</li><li style='margin-bottom:6px;'>✓ 참여율 6.39% (우수 (상위 30%))</li><li style='margin-bottom:6px;'>✓ 높은 좋아요 비율 (5.18%) - 시청자 만족도 높음</li></ul>
+            </div>
+    </div>
+
+    <!-- 저조 영상 분석 -->
+    <div class="section">
+        <h2 class="section-title">저조한 영상 분석</h2>
+        
+        <div class="metrics-grid" style="margin-bottom:30px;">
+            <div class="metric-card">
+                <div class="value">19</div>
+                <div class="label">저조 영상 수</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">1.7K</div>
+                <div class="label">평균 조회수</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">18</div>
+                <div class="label">평균 조회속도</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">1.35%</div>
+                <div class="label">평균 참여율</div>
+            </div>
+        </div>
+
+        <h3 style="font-size:16px;margin-bottom:16px;">저조 영상 상세</h3>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/7Xh7CLPG4rA/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>파산신청비용 다 내지 마세요 #shorts</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">1.3K</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">8/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">1.54%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">55점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score underperform">알고리즘 점수: 46</span>
+                    <div class="video-reasons">
+                        <strong>부진 원인:</strong>
+                        <ul><li>제목 길이 부족 (23자 vs 성공영상 34자)</li><li>태그 부족 (0개) - 검색 노출 제한</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/bjPFXUEfK-U/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>개인회생, 자격부터 절차까지 한눈에! (변호사 비용까지 공개)</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">1.1K</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">10/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">2.66%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">64점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score underperform">알고리즘 점수: 45</span>
+                    <div class="video-reasons">
+                        <strong>부진 원인:</strong>
+                        <ul><li>시청자 관심 영역 이탈 또는 경쟁 콘텐츠 대비 차별화 부족</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/RDJYWVhKbg0/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>개인회생 빚 얼마나 탕감될까? #shorts</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">623</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">6/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">1.77%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">55점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score underperform">알고리즘 점수: 45</span>
+                    <div class="video-reasons">
+                        <strong>부진 원인:</strong>
+                        <ul><li>제목 길이 부족 (24자 vs 성공영상 34자)</li><li>태그 부족 (0개) - 검색 노출 제한</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/9-KAKKEcy3A/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>전세사기 임대인이 파산신청 했을때 #shorts</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">953</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">8/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">1.78%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">55점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score underperform">알고리즘 점수: 44</span>
+                    <div class="video-reasons">
+                        <strong>부진 원인:</strong>
+                        <ul><li>태그 부족 (0개) - 검색 노출 제한</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="video-card">
+                <div class="video-thumb">
+                    <img src="https://i.ytimg.com/vi/KgwYboMmtjc/hqdefault.jpg" alt="thumbnail" onerror="this.style.display='none'">
+                </div>
+                <div class="video-info">
+                    <h4>2026년부터 개인회생 더 쉬워지는 이유 #shorts</h4>
+                    <div class="video-metrics">
+                        <div class="video-metric">
+                            <span class="val">1.2K</span>
+                            <span class="lbl">조회수</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">25/일</span>
+                            <span class="lbl">조회속도</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">1.21%</span>
+                            <span class="lbl">참여율</span>
+                        </div>
+                        <div class="video-metric">
+                            <span class="val">60점</span>
+                            <span class="lbl">제목CTR</span>
+                        </div>
+                    </div>
+                    <span class="video-score underperform">알고리즘 점수: 44</span>
+                    <div class="video-reasons">
+                        <strong>부진 원인:</strong>
+                        <ul><li>낮은 참여율 (1.21%)</li><li>태그 부족 (0개) - 검색 노출 제한</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top:24px;padding:20px;background:#ffebee;border-radius:12px;border-left:4px solid #c62828;">
+                <h4 style="color:#c62828;margin-bottom:12px;">개선 필요 사항</h4>
+                <ul style="margin-left:20px;"><li style='margin-bottom:6px;'>✗ 제목이 성공 영상 대비 6자 짧음 - 정보 부족</li><li style='margin-bottom:6px;'>✗ 조회 속도가 성공 영상의 29%에 불과 - 초기 노출 부족</li><li style='margin-bottom:6px;'>✗ 참여율이 성공 영상 대비 5.04%p 낮음 - 콘텐츠 매력도 개선 필요</li><li style='margin-bottom:6px;'>✗ 좋아요 비율이 성공 영상 대비 3.97%p 낮음 - 시청자 만족도 저조</li><li style='margin-bottom:6px;'>✗ 태그 수 부족 (성공: 24개 vs 실패: 2개)</li></ul>
+            </div>
+            <div style="margin-top:24px;">
+                <h4 style="margin-bottom:16px;">성공 영상 vs 저조 영상 비교</h4>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>지표</th>
+                            <th>성공 영상</th>
+                            <th>저조 영상</th>
+                            <th>차이</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>조회 속도</td>
+                            <td style="text-align:right;">59.3/일</td>
+                            <td style="text-align:right;">17.7/일</td>
+                            <td style="text-align:right;color:#2e7d32;font-weight:600;">+41.6/일</td>
+                        </tr>
+                        <tr>
+                            <td>참여율</td>
+                            <td style="text-align:right;">6.4%</td>
+                            <td style="text-align:right;">1.4%</td>
+                            <td style="text-align:right;color:#2e7d32;font-weight:600;">+5.0%</td>
+                        </tr>
+                        <tr>
+                            <td>제목 길이</td>
+                            <td style="text-align:right;">34.4자</td>
+                            <td style="text-align:right;">28.5자</td>
+                            <td style="text-align:right;color:#2e7d32;font-weight:600;">+5.9자</td>
+                        </tr>
+                        <tr>
+                            <td>제목 CTR 점수</td>
+                            <td style="text-align:right;">60.9점</td>
+                            <td style="text-align:right;">58.2점</td>
+                            <td style="text-align:right;color:#2e7d32;font-weight:600;">+2.7점</td>
+                        </tr></tbody></table></div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- 개선 추천사항 -->
+    <div class="section">
+        <h2 class="section-title">데이터 기반 개선 추천</h2>
+        
+            <div class="recommendation high">
+                <h4>🎯 우선순위 3: 제목 최적화</h4>
+                <div class="targets">현재: 60점 → 목표: 70점 이상</div>
+                <ul><li>호기심 유발 키워드 사용</li><li>숫자 활용</li><li>30-50자 제목 길이 유지</li></ul>
+            </div>
+            <div class="recommendation high">
+                <h4>📈 트렌드 분석 기반 개선사항</h4>
+                
+                <ul><li>✓ 조회 속도 +265.0% 성장 - 급성장 중! 알고리즘 추천 가능성 높아지고 있음</li><li>✓ 참여율 3.93% (평균)</li><li>제목 길이: 29자 → 34자 (30-50자 권장)</li><li>✓ 성공 영상 비율 개선 (24% → 44%)</li></ul>
+            </div>
+            <div class="recommendation medium">
+                <h4>✅ 성공 패턴 유지/강화</h4>
+                
+                <ul><li>✓ 최적 제목 길이 유지 (평균 34자)</li><li>✓ 숫자 활용 (47%) - CTR 향상 효과</li><li>✓ 질문형 제목 사용 (29%) - 호기심 유발</li><li>✓ 높은 조회 속도 (평균 59회/일)</li><li>✓ 참여율 6.39% (우수 (상위 30%))</li></ul>
+            </div>
+            <div class="recommendation high">
+                <h4>⚠️ 개선 필요 영역</h4>
+                
+                <ul><li>✗ 제목이 성공 영상 대비 6자 짧음 - 정보 부족</li><li>✗ 조회 속도가 성공 영상의 29%에 불과 - 초기 노출 부족</li><li>✗ 참여율이 성공 영상 대비 5.04%p 낮음 - 콘텐츠 매력도 개선 필요</li><li>✗ 좋아요 비율이 성공 영상 대비 3.97%p 낮음 - 시청자 만족도 저조</li></ul>
+            </div>
+            <div class="recommendation high">
+                <h4>🎯 성공영상 벤치마크 기반</h4>
+                
+                <ul><li>초기 24시간 노출 전략 강화 필요 (성공영상 대비 29% 수준)</li><li>제목 길이를 34자 수준으로 조정</li><li>참여율 목표: 6.39% (현재 저조영상: 1.35%)</li></ul>
+            </div>
+            <div class="recommendation medium">
+                <h4>📝 제목 최적화 (CTR 향상)</h4>
+                
+                <ul><li>권장 제목 길이: 29~39자</li><li>숫자 활용 권장 - 구체성 강화 (예: 'TOP 5', '3가지 방법')</li><li>호기심 유발 키워드 사용: '비밀', '진실', '몰랐던', '실제로'</li><li>가치 제안 키워드 추가: '꿀팁', '핵심', '완벽 가이드'</li></ul>
+            </div>
+            <div class="recommendation medium">
+                <h4>🗓️ 업로드 전략</h4>
+                
+                <ul><li>주요 업로드 요일: 금, 화요일 - 일관성 유지</li></ul>
+            </div>
+    </div>
+
+    <!-- 상세 분포 -->
+    <div class="section">
+        <h2 class="section-title">상세 지표 분포</h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:24px;"><div><h4 style="margin-bottom:12px;">알고리즘 점수 분포</h4><div class="dist-bar"><div class="dist-segment" style="flex:57.99999999999999;background:#f57c00">29</div><div class="dist-segment" style="flex:30.0;background:#2196f3">15</div><div class="dist-segment" style="flex:12.0;background:#ff9800">6</div></div><div style="font-size:13px;padding:4px 0;">0-30 (저조): 0개</div><div style="font-size:13px;padding:4px 0;">30-50 (평균 이하): 29개</div><div style="font-size:13px;padding:4px 0;">50-65 (평균): 15개</div><div style="font-size:13px;padding:4px 0;">65-80 (우수): 6개</div><div style="font-size:13px;padding:4px 0;">80+ (최상위): 0개</div></div><div><h4 style="margin-bottom:12px;">참여율 분포</h4><div class="dist-bar"><div class="dist-segment" style="flex:16.0;background:#9e9e9e">8</div><div class="dist-segment" style="flex:54.0;background:#2196f3">27</div><div class="dist-segment" style="flex:16.0;background:#ff9800">8</div><div class="dist-segment" style="flex:4.0;background:#2e7d32">2</div><div class="dist-segment" style="flex:10.0;background:#FF0000">5</div></div><div style="font-size:13px;padding:4px 0;">0-1%: 8개</div><div style="font-size:13px;padding:4px 0;">1-3%: 27개</div><div style="font-size:13px;padding:4px 0;">3-5%: 8개</div><div style="font-size:13px;padding:4px 0;">5-8%: 2개</div><div style="font-size:13px;padding:4px 0;">8%+: 5개</div></div><div><h4 style="margin-bottom:12px;">조회 속도 분포</h4><div class="dist-bar"><div class="dist-segment" style="flex:94.0;background:#9e9e9e">47</div><div class="dist-segment" style="flex:6.0;background:#2196f3">3</div></div><div style="font-size:13px;padding:4px 0;">0-100: 47개</div><div style="font-size:13px;padding:4px 0;">100-500: 3개</div><div style="font-size:13px;padding:4px 0;">500-1000: 0개</div><div style="font-size:13px;padding:4px 0;">1000-5000: 0개</div><div style="font-size:13px;padding:4px 0;">5000+: 0개</div></div></div>
+    </div>
+
+    <!-- 업로드 패턴 -->
+    <div class="section">
+        <h2 class="section-title">업로드 패턴 분석</h2>
+        
+        <div class="metrics-grid" style="margin-bottom:24px;">
+            <div class="metric-card">
+                <div class="value">2.9일</div>
+                <div class="label">평균 업로드 간격</div>
+            </div>
+            <div class="metric-card">
+                <div class="value">주 2-3회</div>
+                <div class="label">업로드 빈도</div>
+            </div>
+        </div>
+
+        <h4 style="margin-bottom:12px;">요일별 업로드 분포</h4>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <div style="flex:1;min-width:80px;text-align:center;padding:16px;background:#f9f9f9;border-radius:8px;">
+                <div style="font-size:24px;font-weight:700;color:#FF0000">20</div>
+                <div style="font-size:13px;color:#606060">금</div>
+            </div>
+            <div style="flex:1;min-width:80px;text-align:center;padding:16px;background:#f9f9f9;border-radius:8px;">
+                <div style="font-size:24px;font-weight:700;color:#FF0000">13</div>
+                <div style="font-size:13px;color:#606060">화</div>
+            </div>
+            <div style="flex:1;min-width:80px;text-align:center;padding:16px;background:#f9f9f9;border-radius:8px;">
+                <div style="font-size:24px;font-weight:700;color:#FF0000">8</div>
+                <div style="font-size:13px;color:#606060">수</div>
+            </div>
+            <div style="flex:1;min-width:80px;text-align:center;padding:16px;background:#f9f9f9;border-radius:8px;">
+                <div style="font-size:24px;font-weight:700;color:#FF0000">5</div>
+                <div style="font-size:13px;color:#606060">목</div>
+            </div>
+            <div style="flex:1;min-width:80px;text-align:center;padding:16px;background:#f9f9f9;border-radius:8px;">
+                <div style="font-size:24px;font-weight:700;color:#FF0000">4</div>
+                <div style="font-size:13px;color:#606060">월</div>
+            </div></div>
+    </div>
+
+    <!-- 전체 영상 목록 -->
+    <div class="section">
+        <h2 class="section-title">전체 영상 성과 상세</h2>
+        
+        <div style="overflow-x:auto;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>제목</th>
+                    <th style="text-align:right;">조회수</th>
+                    <th style="text-align:right;">속도</th>
+                    <th style="text-align:right;">참여율</th>
+                    <th style="text-align:right;">좋아요율</th>
+                    <th style="text-align:center;">분류</th>
+                    <th style="text-align:center;">점수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=ogGxy0mJc9c" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            빚 감당이 어렵다고? #shorts
+                        </a>
+                    </td>
+                    <td style="text-align:right;">4.4K</td>
+                    <td style="text-align:right;">37/일</td>
+                    <td style="text-align:right;">10.52%</td>
+                    <td style="text-align:right;">10.04%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#FF0000;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">바이럴</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">71</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=APvR1u-L9-E" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            나라에서 싫어하는 영상, 기업 대표들이 책임경영이행약정에서 벗어나는 방법
+                        </a>
+                    </td>
+                    <td style="text-align:right;">101</td>
+                    <td style="text-align:right;">25/일</td>
+                    <td style="text-align:right;">16.83%</td>
+                    <td style="text-align:right;">13.86%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#FF0000;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">바이럴</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">70</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=VZ1vpnHQFl4" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            3,000건의 회생·파산 상담, 돈이 안 모이는 사람은 딱 이 습관이 있습니다
+                        </a>
+                    </td>
+                    <td style="text-align:right;">64</td>
+                    <td style="text-align:right;">32/일</td>
+                    <td style="text-align:right;">23.44%</td>
+                    <td style="text-align:right;">17.19%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#FF0000;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">바이럴</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">70</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=ikEiggIHEKI" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            개인회생으로 불이익 생긴다는 오해! 영상 하나로 정리해드립니다!
+                        </a>
+                    </td>
+                    <td style="text-align:right;">284</td>
+                    <td style="text-align:right;">2/일</td>
+                    <td style="text-align:right;">8.45%</td>
+                    <td style="text-align:right;">7.75%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#FF0000;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">바이럴</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">67</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=qgTlWCbxfyw" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            연금만으로 빚 못 갚습니다… 50·60대 꼭 보세요
+                        </a>
+                    </td>
+                    <td style="text-align:right;">264</td>
+                    <td style="text-align:right;">2/일</td>
+                    <td style="text-align:right;">9.47%</td>
+                    <td style="text-align:right;">6.82%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#FF0000;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">바이럴</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">67</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=YTrxWoQDcNY" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            합법적으로 빚 안 갚는 방법 말씀드립니다.
+                        </a>
+                    </td>
+                    <td style="text-align:right;">356</td>
+                    <td style="text-align:right;">32/일</td>
+                    <td style="text-align:right;">6.74%</td>
+                    <td style="text-align:right;">6.18%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#FF0000;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">바이럴</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">66</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=DxrCy5DoiSo" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            빚 갚지 않는 방법 말씀드립니다! #shorts
+                        </a>
+                    </td>
+                    <td style="text-align:right;">245</td>
+                    <td style="text-align:right;">35/일</td>
+                    <td style="text-align:right;">5.71%</td>
+                    <td style="text-align:right;">5.31%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#ff9800;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">히트</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">64</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=Gzg8ABvFX-Y" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            2026년부터 통장 압류 못합니다! #shorts
+                        </a>
+                    </td>
+                    <td style="text-align:right;">7.1K</td>
+                    <td style="text-align:right;">204/일</td>
+                    <td style="text-align:right;">0.84%</td>
+                    <td style="text-align:right;">0.73%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#FF0000;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">바이럴</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">61</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=Usq69XgE4Rg" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            개인회생, ‘언제’ 신청해야 가장 유리할까? (연말 vs 연초 비교)
+                        </a>
+                    </td>
+                    <td style="text-align:right;">414</td>
+                    <td style="text-align:right;">13/일</td>
+                    <td style="text-align:right;">4.35%</td>
+                    <td style="text-align:right;">3.14%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#ff9800;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">히트</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">59</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=aSNy85l04D0" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            고소득자는 워크아웃이 답이다? 월 소득 650만원, 개인회생 가능할까요?
+                        </a>
+                    </td>
+                    <td style="text-align:right;">790</td>
+                    <td style="text-align:right;">5/일</td>
+                    <td style="text-align:right;">3.92%</td>
+                    <td style="text-align:right;">3.17%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#ff9800;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">히트</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">58</td>
+                </tr>
+                <tr>
+                    <td>11</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=rIaorz9LBPw" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            개인회생 변호사 사무실 어디 가야할까? 솔직하게 말씀드립니다.
+                        </a>
+                    </td>
+                    <td style="text-align:right;">2.7K</td>
+                    <td style="text-align:right;">20/일</td>
+                    <td style="text-align:right;">3.63%</td>
+                    <td style="text-align:right;">3.11%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#ff9800;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">히트</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">58</td>
+                </tr>
+                <tr>
+                    <td>12</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=ftvJ4fYRi5Y" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            2026년 압류방지통장 전면 시행! 채무자 통장 보호됩니다
+                        </a>
+                    </td>
+                    <td style="text-align:right;">6.1K</td>
+                    <td style="text-align:right;">116/일</td>
+                    <td style="text-align:right;">2.13%</td>
+                    <td style="text-align:right;">1.58%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#FF0000;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">바이럴</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">58</td>
+                </tr>
+                <tr>
+                    <td>13</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=sAMwBuQRNj0" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            최저생계비 ‘역대급 인상’… 개인회생 결과가 완전히 달라졌습니다
+                        </a>
+                    </td>
+                    <td style="text-align:right;">561</td>
+                    <td style="text-align:right;">14/일</td>
+                    <td style="text-align:right;">4.81%</td>
+                    <td style="text-align:right;">4.10%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#ff9800;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">히트</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">58</td>
+                </tr>
+                <tr>
+                    <td>14</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=Tc7EdwUM8zA" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            이재명 정부, 대부업법도 뜯어 고쳤다! 불법대부에 원금 이자 안내도 된다!
+                        </a>
+                    </td>
+                    <td style="text-align:right;">2.6K</td>
+                    <td style="text-align:right;">15/일</td>
+                    <td style="text-align:right;">3.33%</td>
+                    <td style="text-align:right;">2.13%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#ff9800;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">히트</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">55</td>
+                </tr>
+                <tr>
+                    <td>15</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=XAKZXEGUQ48" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            회생파산 변호사가 3,000명 만나고 깨달은 돈 없는 사람들의 끔찍한 공통점 #s...
+                        </a>
+                    </td>
+                    <td style="text-align:right;">5.3K</td>
+                    <td style="text-align:right;">354/일</td>
+                    <td style="text-align:right;">0.91%</td>
+                    <td style="text-align:right;">0.79%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#FF0000;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">바이럴</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">55</td>
+                </tr>
+                <tr>
+                    <td>16</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=wyLicjp6a9c" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            2026년 개인회생 신청, 이렇게 달라집니다│서류 100장 → 자동완성·간소화 총...
+                        </a>
+                    </td>
+                    <td style="text-align:right;">753</td>
+                    <td style="text-align:right;">16/일</td>
+                    <td style="text-align:right;">3.59%</td>
+                    <td style="text-align:right;">2.92%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">55</td>
+                </tr>
+                <tr>
+                    <td>17</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=HnNSKLamX4U" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            보이스피싱으로 받게 된 은행 대출, 불법 아니다?
+                        </a>
+                    </td>
+                    <td style="text-align:right;">608</td>
+                    <td style="text-align:right;">6/일</td>
+                    <td style="text-align:right;">3.78%</td>
+                    <td style="text-align:right;">2.96%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">54</td>
+                </tr>
+                <tr>
+                    <td>18</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=EflCBWZ3oO4" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            [최신뉴스] 이재명 정부 ‘새도약기금’ 시행! 빚 100% 탕감, 진짜 시작됐다
+                        </a>
+                    </td>
+                    <td style="text-align:right;">4.1K</td>
+                    <td style="text-align:right;">48/일</td>
+                    <td style="text-align:right;">2.42%</td>
+                    <td style="text-align:right;">1.53%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#ff9800;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">히트</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">54</td>
+                </tr>
+                <tr>
+                    <td>19</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=_GJD8-U0M4k" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            법인 부도났다고 대표까지 망하는 시대는 끝났다! 책임경영이행약정 진짜 영향은?
+                        </a>
+                    </td>
+                    <td style="text-align:right;">550</td>
+                    <td style="text-align:right;">7/일</td>
+                    <td style="text-align:right;">4.00%</td>
+                    <td style="text-align:right;">3.82%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">54</td>
+                </tr>
+                <tr>
+                    <td>20</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=9fVD7wg6Q04" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            개인회생 포기하셨나요? 2026년부터는 진짜 달라집니다!
+                        </a>
+                    </td>
+                    <td style="text-align:right;">1.8K</td>
+                    <td style="text-align:right;">27/일</td>
+                    <td style="text-align:right;">2.90%</td>
+                    <td style="text-align:right;">2.40%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">52</td>
+                </tr>
+                <tr>
+                    <td>21</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=GkTCxvvs0jA" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            연체로 압류된 통장, 이렇게 풀 수 있습니다 (법적꿀팁)
+                        </a>
+                    </td>
+                    <td style="text-align:right;">2.4K</td>
+                    <td style="text-align:right;">23/일</td>
+                    <td style="text-align:right;">2.48%</td>
+                    <td style="text-align:right;">1.93%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">50</td>
+                </tr>
+                <tr>
+                    <td>22</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=_a0E5u-ykmU" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            이재명 정부, 빚 탕감 배드뱅크의 실체 #shorts
+                        </a>
+                    </td>
+                    <td style="text-align:right;">7.3K</td>
+                    <td style="text-align:right;">45/일</td>
+                    <td style="text-align:right;">0.96%</td>
+                    <td style="text-align:right;">0.81%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">49</td>
+                </tr>
+                <tr>
+                    <td>23</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=CLFv-oyjJAY" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            개인회생·파산 없이 합법적으로 빚 갚지 않는 유일한 방법!
+                        </a>
+                    </td>
+                    <td style="text-align:right;">2.5K</td>
+                    <td style="text-align:right;">42/일</td>
+                    <td style="text-align:right;">2.16%</td>
+                    <td style="text-align:right;">1.77%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">49</td>
+                </tr>
+                <tr>
+                    <td>24</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=5BXHpyn8Qvw" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            자영업자 개인회생… 폐업 없이 살아남는 법!
+                        </a>
+                    </td>
+                    <td style="text-align:right;">1.0K</td>
+                    <td style="text-align:right;">7/일</td>
+                    <td style="text-align:right;">2.62%</td>
+                    <td style="text-align:right;">2.04%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">49</td>
+                </tr>
+                <tr>
+                    <td>25</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=S-2fU2gu0uQ" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            회생파산 전문 변호사가 말하는 빚보다 재산이 많아도 회생이 가능한 이유!
+                        </a>
+                    </td>
+                    <td style="text-align:right;">560</td>
+                    <td style="text-align:right;">22/일</td>
+                    <td style="text-align:right;">2.86%</td>
+                    <td style="text-align:right;">1.96%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">48</td>
+                </tr>
+                <tr>
+                    <td>26</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=y4_ZEpH9G_0" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            이재명 정부, 배드뱅크 이어 새출발기금까지 확대?
+                        </a>
+                    </td>
+                    <td style="text-align:right;">2.0K</td>
+                    <td style="text-align:right;">13/일</td>
+                    <td style="text-align:right;">2.69%</td>
+                    <td style="text-align:right;">1.96%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">48</td>
+                </tr>
+                <tr>
+                    <td>27</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=UM6YcPFT5lg" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            장애로 인한 병원비, 회생 인가 가능? #shorts
+                        </a>
+                    </td>
+                    <td style="text-align:right;">690</td>
+                    <td style="text-align:right;">4/일</td>
+                    <td style="text-align:right;">2.17%</td>
+                    <td style="text-align:right;">1.45%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">48</td>
+                </tr>
+                <tr>
+                    <td>28</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=ulhTom0F9es" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            전세사기 임대인이 파산한다면? 세입자는 돈 돌려받을 수 있을까?
+                        </a>
+                    </td>
+                    <td style="text-align:right;">1.2K</td>
+                    <td style="text-align:right;">10/일</td>
+                    <td style="text-align:right;">2.13%</td>
+                    <td style="text-align:right;">1.64%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">46</td>
+                </tr>
+                <tr>
+                    <td>29</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=rnXPUob1Ubk" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            통장압류 가장 빨리 해결하는 방법 #shorts
+                        </a>
+                    </td>
+                    <td style="text-align:right;">2.2K</td>
+                    <td style="text-align:right;">16/일</td>
+                    <td style="text-align:right;">1.20%</td>
+                    <td style="text-align:right;">1.06%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">46</td>
+                </tr>
+                <tr>
+                    <td>30</td>
+                    <td>
+                        <a href="https://youtube.com/watch?v=pYiCyIXyZK8" target="_blank" style="color:#0f0f0f;text-decoration:none;">
+                            법인파산 할때 딱 세가지만 명심하세요! #shorts
+                        </a>
+                    </td>
+                    <td style="text-align:right;">609</td>
+                    <td style="text-align:right;">11/일</td>
+                    <td style="text-align:right;">1.81%</td>
+                    <td style="text-align:right;">1.48%</td>
+                    <td style="text-align:center;">
+                        <span style="background:#2196f3;color:white;padding:4px 10px;border-radius:10px;font-size:12px;">평균</span>
+                    </td>
+                    <td style="text-align:center;" class="score-cell">46</td>
+                </tr></tbody></table></div>
+    </div>
+
+    <!-- 푸터 -->
+    <div style="text-align:center;padding:40px;color:#606060;font-size:13px;">
+        <hr style="border:none;border-top:1px dashed #e5e5e5;margin-bottom:20px;">
+        <p>본 보고서는 YouTube Data API 데이터와 2025-2026 알고리즘 분석 기준을 적용하여 생성되었습니다.</p>
+        <p>생성일시: 2026-01-07 03:20:04</p>
+    </div>
+
+</div>
+
+<script>
+// 분류 차트
+const classCtx = document.getElementById('classificationChart');
+if (classCtx) {
+    new Chart(classCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['바이럴', '히트', '평균', '저조'],
+            datasets: [{
+                data: [9, 8, 14, 19],
+                backgroundColor: ['#FF0000', '#ff9800', '#2196f3', '#9e9e9e'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'right', labels: { font: { size: 14 }, padding: 16 } }
+            },
+            cutout: '60%'
+        }
+    });
+}
+</script>
+
+</body>
+</html>

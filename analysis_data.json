@@ -1,0 +1,1223 @@
+{
+  "channels": [
+    {
+      "name": "테크리뷰어_김기술",
+      "subscribers": 153684,
+      "total_videos": 120,
+      "type": "테크 리뷰 채널",
+      "stats": {
+        "avg_views": 100602,
+        "std_dev": 235367,
+        "viral_threshold": 453653,
+        "hit_threshold": 218286
+      },
+      "tier_distribution": {
+        "viral": 6,
+        "hit": 5,
+        "average": 109
+      },
+      "upload_patterns": {
+        "hour_data": [
+          {
+            "hour": "0시",
+            "count": 0
+          },
+          {
+            "hour": "1시",
+            "count": 0
+          },
+          {
+            "hour": "2시",
+            "count": 0
+          },
+          {
+            "hour": "3시",
+            "count": 0
+          },
+          {
+            "hour": "4시",
+            "count": 0
+          },
+          {
+            "hour": "5시",
+            "count": 0
+          },
+          {
+            "hour": "6시",
+            "count": 0
+          },
+          {
+            "hour": "7시",
+            "count": 0
+          },
+          {
+            "hour": "8시",
+            "count": 0
+          },
+          {
+            "hour": "9시",
+            "count": 0
+          },
+          {
+            "hour": "10시",
+            "count": 0
+          },
+          {
+            "hour": "11시",
+            "count": 0
+          },
+          {
+            "hour": "12시",
+            "count": 0
+          },
+          {
+            "hour": "13시",
+            "count": 0
+          },
+          {
+            "hour": "14시",
+            "count": 0
+          },
+          {
+            "hour": "15시",
+            "count": 0
+          },
+          {
+            "hour": "16시",
+            "count": 0
+          },
+          {
+            "hour": "17시",
+            "count": 0
+          },
+          {
+            "hour": "18시",
+            "count": 120
+          },
+          {
+            "hour": "19시",
+            "count": 0
+          },
+          {
+            "hour": "20시",
+            "count": 0
+          },
+          {
+            "hour": "21시",
+            "count": 0
+          },
+          {
+            "hour": "22시",
+            "count": 0
+          },
+          {
+            "hour": "23시",
+            "count": 0
+          }
+        ],
+        "day_data": [
+          {
+            "day": "월",
+            "count": 13
+          },
+          {
+            "day": "화",
+            "count": 22
+          },
+          {
+            "day": "수",
+            "count": 17
+          },
+          {
+            "day": "목",
+            "count": 17
+          },
+          {
+            "day": "금",
+            "count": 13
+          },
+          {
+            "day": "토",
+            "count": 17
+          },
+          {
+            "day": "일",
+            "count": 21
+          }
+        ],
+        "best_hour": 18,
+        "best_day": "화"
+      },
+      "monthly_trends": [
+        {
+          "month": "2025-01",
+          "total_views": 1476102,
+          "total_likes": 72774,
+          "total_comments": 8221,
+          "video_count": 11,
+          "hit_count": 1,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-02",
+          "total_views": 475888,
+          "total_likes": 15085,
+          "total_comments": 2495,
+          "video_count": 6,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-03",
+          "total_views": 2858218,
+          "total_likes": 64630,
+          "total_comments": 10244,
+          "video_count": 8,
+          "hit_count": 0,
+          "viral_count": 2
+        },
+        {
+          "month": "2025-04",
+          "total_views": 1004593,
+          "total_likes": 47929,
+          "total_comments": 7158,
+          "video_count": 10,
+          "hit_count": 1,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-05",
+          "total_views": 895727,
+          "total_likes": 26120,
+          "total_comments": 3397,
+          "video_count": 18,
+          "hit_count": 1,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-06",
+          "total_views": 758822,
+          "total_likes": 18025,
+          "total_comments": 2414,
+          "video_count": 10,
+          "hit_count": 1,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-07",
+          "total_views": 889705,
+          "total_likes": 16386,
+          "total_comments": 1968,
+          "video_count": 8,
+          "hit_count": 0,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-08",
+          "total_views": 464982,
+          "total_likes": 14506,
+          "total_comments": 1381,
+          "video_count": 14,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-09",
+          "total_views": 1991099,
+          "total_likes": 57725,
+          "total_comments": 7018,
+          "video_count": 13,
+          "hit_count": 0,
+          "viral_count": 2
+        },
+        {
+          "month": "2025-10",
+          "total_views": 790198,
+          "total_likes": 23797,
+          "total_comments": 3248,
+          "video_count": 12,
+          "hit_count": 1,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-11",
+          "total_views": 351000,
+          "total_likes": 7829,
+          "total_comments": 1031,
+          "video_count": 7,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-12",
+          "total_views": 115990,
+          "total_likes": 4438,
+          "total_comments": 269,
+          "video_count": 3,
+          "hit_count": 0,
+          "viral_count": 0
+        }
+      ],
+      "keywords": [
+        {
+          "word": "언박싱",
+          "count": 19
+        },
+        {
+          "word": "추천",
+          "count": 17
+        },
+        {
+          "word": "성능",
+          "count": 16
+        },
+        {
+          "word": "꿀팁",
+          "count": 15
+        },
+        {
+          "word": "비교",
+          "count": 15
+        },
+        {
+          "word": "가성비",
+          "count": 14
+        },
+        {
+          "word": "리뷰",
+          "count": 14
+        },
+        {
+          "word": "테스트",
+          "count": 10
+        }
+      ],
+      "top_videos": [
+        {
+          "title": "드디어 공개! 가성비 끝판왕",
+          "views": 2000000,
+          "likes": 43586,
+          "comments": 6690,
+          "engagement_rate": 2.51,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "요즘 핫한 언박싱 다 써봤습니다",
+          "views": 861733,
+          "likes": 17593,
+          "comments": 2205,
+          "engagement_rate": 2.3,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "요즘 핫한 비교 다 써봤습니다",
+          "views": 847606,
+          "likes": 56782,
+          "comments": 6873,
+          "engagement_rate": 7.51,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "추천 리얼 후기 (솔직하게)",
+          "views": 764272,
+          "likes": 12251,
+          "comments": 1325,
+          "engagement_rate": 1.78,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "드디어 공개! 성능 끝판왕",
+          "views": 673433,
+          "likes": 22982,
+          "comments": 2660,
+          "engagement_rate": 3.81,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "비교 리얼 후기 (솔직하게)",
+          "views": 594034,
+          "likes": 8147,
+          "comments": 1191,
+          "engagement_rate": 1.57,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "드디어 공개! 꿀팁 끝판왕",
+          "views": 415494,
+          "likes": 7227,
+          "comments": 1373,
+          "engagement_rate": 2.07,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        },
+        {
+          "title": "가성비 리얼 후기 (솔직하게)",
+          "views": 362478,
+          "likes": 7014,
+          "comments": 393,
+          "engagement_rate": 2.04,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        },
+        {
+          "title": "요즘 핫한 리뷰 다 써봤습니다",
+          "views": 341795,
+          "likes": 6700,
+          "comments": 397,
+          "engagement_rate": 2.08,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        },
+        {
+          "title": "추천 완벽 정리 | 꼭 봐야하는 영상",
+          "views": 296095,
+          "likes": 17537,
+          "comments": 2817,
+          "engagement_rate": 6.87,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        }
+      ]
+    },
+    {
+      "name": "일상브이로그_이하루",
+      "subscribers": 128599,
+      "total_videos": 80,
+      "type": "테크 리뷰 채널",
+      "stats": {
+        "avg_views": 68902,
+        "std_dev": 114674,
+        "viral_threshold": 240913,
+        "hit_threshold": 126239
+      },
+      "tier_distribution": {
+        "viral": 6,
+        "hit": 7,
+        "average": 67
+      },
+      "upload_patterns": {
+        "hour_data": [
+          {
+            "hour": "0시",
+            "count": 0
+          },
+          {
+            "hour": "1시",
+            "count": 0
+          },
+          {
+            "hour": "2시",
+            "count": 0
+          },
+          {
+            "hour": "3시",
+            "count": 0
+          },
+          {
+            "hour": "4시",
+            "count": 0
+          },
+          {
+            "hour": "5시",
+            "count": 0
+          },
+          {
+            "hour": "6시",
+            "count": 0
+          },
+          {
+            "hour": "7시",
+            "count": 0
+          },
+          {
+            "hour": "8시",
+            "count": 0
+          },
+          {
+            "hour": "9시",
+            "count": 0
+          },
+          {
+            "hour": "10시",
+            "count": 0
+          },
+          {
+            "hour": "11시",
+            "count": 0
+          },
+          {
+            "hour": "12시",
+            "count": 0
+          },
+          {
+            "hour": "13시",
+            "count": 0
+          },
+          {
+            "hour": "14시",
+            "count": 0
+          },
+          {
+            "hour": "15시",
+            "count": 0
+          },
+          {
+            "hour": "16시",
+            "count": 0
+          },
+          {
+            "hour": "17시",
+            "count": 0
+          },
+          {
+            "hour": "18시",
+            "count": 80
+          },
+          {
+            "hour": "19시",
+            "count": 0
+          },
+          {
+            "hour": "20시",
+            "count": 0
+          },
+          {
+            "hour": "21시",
+            "count": 0
+          },
+          {
+            "hour": "22시",
+            "count": 0
+          },
+          {
+            "hour": "23시",
+            "count": 0
+          }
+        ],
+        "day_data": [
+          {
+            "day": "월",
+            "count": 17
+          },
+          {
+            "day": "화",
+            "count": 11
+          },
+          {
+            "day": "수",
+            "count": 12
+          },
+          {
+            "day": "목",
+            "count": 11
+          },
+          {
+            "day": "금",
+            "count": 11
+          },
+          {
+            "day": "토",
+            "count": 9
+          },
+          {
+            "day": "일",
+            "count": 9
+          }
+        ],
+        "best_hour": 18,
+        "best_day": "월"
+      },
+      "monthly_trends": [
+        {
+          "month": "2025-01",
+          "total_views": 482973,
+          "total_likes": 19928,
+          "total_comments": 3184,
+          "video_count": 6,
+          "hit_count": 2,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-02",
+          "total_views": 1269668,
+          "total_likes": 41772,
+          "total_comments": 6053,
+          "video_count": 6,
+          "hit_count": 1,
+          "viral_count": 2
+        },
+        {
+          "month": "2025-03",
+          "total_views": 162694,
+          "total_likes": 5149,
+          "total_comments": 690,
+          "video_count": 8,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-04",
+          "total_views": 411356,
+          "total_likes": 21682,
+          "total_comments": 2630,
+          "video_count": 7,
+          "hit_count": 1,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-05",
+          "total_views": 88979,
+          "total_likes": 4643,
+          "total_comments": 681,
+          "video_count": 4,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-06",
+          "total_views": 400763,
+          "total_likes": 18865,
+          "total_comments": 1973,
+          "video_count": 7,
+          "hit_count": 0,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-07",
+          "total_views": 662185,
+          "total_likes": 30499,
+          "total_comments": 3847,
+          "video_count": 5,
+          "hit_count": 0,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-08",
+          "total_views": 436160,
+          "total_likes": 22674,
+          "total_comments": 2031,
+          "video_count": 6,
+          "hit_count": 0,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-09",
+          "total_views": 160065,
+          "total_likes": 4680,
+          "total_comments": 657,
+          "video_count": 6,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-10",
+          "total_views": 241611,
+          "total_likes": 9763,
+          "total_comments": 914,
+          "video_count": 5,
+          "hit_count": 1,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-11",
+          "total_views": 536859,
+          "total_likes": 13968,
+          "total_comments": 2158,
+          "video_count": 10,
+          "hit_count": 1,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-12",
+          "total_views": 658884,
+          "total_likes": 24122,
+          "total_comments": 3051,
+          "video_count": 10,
+          "hit_count": 1,
+          "viral_count": 1
+        }
+      ],
+      "keywords": [
+        {
+          "word": "언박싱",
+          "count": 13
+        },
+        {
+          "word": "꿀팁",
+          "count": 11
+        },
+        {
+          "word": "리뷰",
+          "count": 11
+        },
+        {
+          "word": "성능",
+          "count": 10
+        },
+        {
+          "word": "비교",
+          "count": 10
+        },
+        {
+          "word": "테스트",
+          "count": 9
+        },
+        {
+          "word": "추천",
+          "count": 8
+        },
+        {
+          "word": "가성비",
+          "count": 8
+        }
+      ],
+      "top_videos": [
+        {
+          "title": "비교 완벽 정리 | 꼭 봐야하는 영상",
+          "views": 580771,
+          "likes": 19503,
+          "comments": 3788,
+          "engagement_rate": 4.01,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "꿀팁 완벽 정리 | 꼭 봐야하는 영상",
+          "views": 550617,
+          "likes": 25311,
+          "comments": 3114,
+          "engagement_rate": 5.16,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "꿀팁 완벽 정리 | 꼭 봐야하는 영상",
+          "views": 474800,
+          "likes": 11523,
+          "comments": 623,
+          "engagement_rate": 2.56,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "드디어 공개! 가성비 끝판왕",
+          "views": 310453,
+          "likes": 5868,
+          "comments": 1038,
+          "engagement_rate": 2.22,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "드디어 공개! 리뷰 끝판왕",
+          "views": 283288,
+          "likes": 14103,
+          "comments": 1433,
+          "engagement_rate": 5.48,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "[꿀팁] 이거 진짜 대박입니다",
+          "views": 266094,
+          "likes": 14586,
+          "comments": 976,
+          "engagement_rate": 5.85,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "비교 리얼 후기 (솔직하게)",
+          "views": 239750,
+          "likes": 2296,
+          "comments": 270,
+          "engagement_rate": 1.07,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        },
+        {
+          "title": "드디어 공개! 추천 끝판왕",
+          "views": 204916,
+          "likes": 13867,
+          "comments": 1645,
+          "engagement_rate": 7.57,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        },
+        {
+          "title": "[비교] 이거 진짜 대박입니다",
+          "views": 188997,
+          "likes": 10639,
+          "comments": 1022,
+          "engagement_rate": 6.17,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        },
+        {
+          "title": "언박싱 리얼 후기 (솔직하게)",
+          "views": 161303,
+          "likes": 7180,
+          "comments": 746,
+          "engagement_rate": 4.91,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        }
+      ]
+    },
+    {
+      "name": "요리왕_박셰프",
+      "subscribers": 250275,
+      "total_videos": 150,
+      "type": "테크 리뷰 채널",
+      "stats": {
+        "avg_views": 85307,
+        "std_dev": 193571,
+        "viral_threshold": 375665,
+        "hit_threshold": 182093
+      },
+      "tier_distribution": {
+        "viral": 6,
+        "hit": 10,
+        "average": 134
+      },
+      "upload_patterns": {
+        "hour_data": [
+          {
+            "hour": "0시",
+            "count": 0
+          },
+          {
+            "hour": "1시",
+            "count": 0
+          },
+          {
+            "hour": "2시",
+            "count": 0
+          },
+          {
+            "hour": "3시",
+            "count": 0
+          },
+          {
+            "hour": "4시",
+            "count": 0
+          },
+          {
+            "hour": "5시",
+            "count": 0
+          },
+          {
+            "hour": "6시",
+            "count": 0
+          },
+          {
+            "hour": "7시",
+            "count": 0
+          },
+          {
+            "hour": "8시",
+            "count": 0
+          },
+          {
+            "hour": "9시",
+            "count": 0
+          },
+          {
+            "hour": "10시",
+            "count": 0
+          },
+          {
+            "hour": "11시",
+            "count": 0
+          },
+          {
+            "hour": "12시",
+            "count": 0
+          },
+          {
+            "hour": "13시",
+            "count": 0
+          },
+          {
+            "hour": "14시",
+            "count": 0
+          },
+          {
+            "hour": "15시",
+            "count": 0
+          },
+          {
+            "hour": "16시",
+            "count": 0
+          },
+          {
+            "hour": "17시",
+            "count": 0
+          },
+          {
+            "hour": "18시",
+            "count": 150
+          },
+          {
+            "hour": "19시",
+            "count": 0
+          },
+          {
+            "hour": "20시",
+            "count": 0
+          },
+          {
+            "hour": "21시",
+            "count": 0
+          },
+          {
+            "hour": "22시",
+            "count": 0
+          },
+          {
+            "hour": "23시",
+            "count": 0
+          }
+        ],
+        "day_data": [
+          {
+            "day": "월",
+            "count": 28
+          },
+          {
+            "day": "화",
+            "count": 19
+          },
+          {
+            "day": "수",
+            "count": 25
+          },
+          {
+            "day": "목",
+            "count": 19
+          },
+          {
+            "day": "금",
+            "count": 15
+          },
+          {
+            "day": "토",
+            "count": 24
+          },
+          {
+            "day": "일",
+            "count": 20
+          }
+        ],
+        "best_hour": 18,
+        "best_day": "월"
+      },
+      "monthly_trends": [
+        {
+          "month": "2025-01",
+          "total_views": 758071,
+          "total_likes": 33653,
+          "total_comments": 3789,
+          "video_count": 13,
+          "hit_count": 1,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-02",
+          "total_views": 2190755,
+          "total_likes": 81498,
+          "total_comments": 11905,
+          "video_count": 21,
+          "hit_count": 3,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-03",
+          "total_views": 895583,
+          "total_likes": 28268,
+          "total_comments": 2715,
+          "video_count": 10,
+          "hit_count": 1,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-04",
+          "total_views": 1035730,
+          "total_likes": 43218,
+          "total_comments": 6361,
+          "video_count": 9,
+          "hit_count": 0,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-05",
+          "total_views": 230406,
+          "total_likes": 7346,
+          "total_comments": 1004,
+          "video_count": 10,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-06",
+          "total_views": 537900,
+          "total_likes": 20815,
+          "total_comments": 2761,
+          "video_count": 12,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-07",
+          "total_views": 2621772,
+          "total_likes": 89525,
+          "total_comments": 12113,
+          "video_count": 17,
+          "hit_count": 0,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-08",
+          "total_views": 413826,
+          "total_likes": 16303,
+          "total_comments": 2781,
+          "video_count": 12,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-09",
+          "total_views": 1934347,
+          "total_likes": 55504,
+          "total_comments": 5594,
+          "video_count": 14,
+          "hit_count": 2,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-10",
+          "total_views": 1435823,
+          "total_likes": 48936,
+          "total_comments": 6367,
+          "video_count": 13,
+          "hit_count": 2,
+          "viral_count": 1
+        },
+        {
+          "month": "2025-11",
+          "total_views": 256864,
+          "total_likes": 4830,
+          "total_comments": 503,
+          "video_count": 8,
+          "hit_count": 0,
+          "viral_count": 0
+        },
+        {
+          "month": "2025-12",
+          "total_views": 485113,
+          "total_likes": 21243,
+          "total_comments": 2104,
+          "video_count": 11,
+          "hit_count": 1,
+          "viral_count": 0
+        }
+      ],
+      "keywords": [
+        {
+          "word": "언박싱",
+          "count": 24
+        },
+        {
+          "word": "리뷰",
+          "count": 24
+        },
+        {
+          "word": "테스트",
+          "count": 23
+        },
+        {
+          "word": "꿀팁",
+          "count": 21
+        },
+        {
+          "word": "비교",
+          "count": 21
+        },
+        {
+          "word": "성능",
+          "count": 15
+        },
+        {
+          "word": "추천",
+          "count": 12
+        },
+        {
+          "word": "가성비",
+          "count": 10
+        }
+      ],
+      "top_videos": [
+        {
+          "title": "언박싱 리얼 후기 (솔직하게)",
+          "views": 2000000,
+          "likes": 66900,
+          "comments": 9184,
+          "engagement_rate": 3.8,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "요즘 핫한 비교 다 써봤습니다",
+          "views": 835527,
+          "likes": 23273,
+          "comments": 1518,
+          "engagement_rate": 2.97,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "요즘 핫한 성능 다 써봤습니다",
+          "views": 550613,
+          "likes": 13879,
+          "comments": 2198,
+          "engagement_rate": 2.92,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "리뷰 리얼 후기 (솔직하게)",
+          "views": 497536,
+          "likes": 19691,
+          "comments": 3110,
+          "engagement_rate": 4.58,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "성능 리얼 후기 (솔직하게)",
+          "views": 405777,
+          "likes": 13499,
+          "comments": 882,
+          "engagement_rate": 3.54,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "요즘 핫한 리뷰 다 써봤습니다",
+          "views": 385021,
+          "likes": 16720,
+          "comments": 3035,
+          "engagement_rate": 5.13,
+          "tier": "viral",
+          "tier_label": "🔥 바이럴"
+        },
+        {
+          "title": "요즘 핫한 비교 다 써봤습니다",
+          "views": 368131,
+          "likes": 19026,
+          "comments": 3128,
+          "engagement_rate": 6.02,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        },
+        {
+          "title": "드디어 공개! 테스트 끝판왕",
+          "views": 353233,
+          "likes": 14368,
+          "comments": 2724,
+          "engagement_rate": 4.84,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        },
+        {
+          "title": "[테스트] 이거 진짜 대박입니다",
+          "views": 300993,
+          "likes": 3549,
+          "comments": 243,
+          "engagement_rate": 1.26,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        },
+        {
+          "title": "꿀팁 완벽 정리 | 꼭 봐야하는 영상",
+          "views": 261676,
+          "likes": 13322,
+          "comments": 1307,
+          "engagement_rate": 5.59,
+          "tier": "hit",
+          "tier_label": "⭐ 히트"
+        }
+      ]
+    }
+  ],
+  "comparison": [
+    {
+      "name": "테크리뷰어_김기술",
+      "subscribers": 153684,
+      "total_views": 12072324,
+      "video_count": 120,
+      "avg_views_per_video": 100602,
+      "hit_rate": 9.2,
+      "avg_engagement": 3.73,
+      "channel_type": "테크 리뷰 채널"
+    },
+    {
+      "name": "일상브이로그_이하루",
+      "subscribers": 128599,
+      "total_views": 5512197,
+      "video_count": 80,
+      "avg_views_per_video": 68902,
+      "hit_rate": 16.2,
+      "avg_engagement": 4.41,
+      "channel_type": "테크 리뷰 채널"
+    },
+    {
+      "name": "요리왕_박셰프",
+      "subscribers": 250275,
+      "total_views": 12796190,
+      "video_count": 150,
+      "avg_views_per_video": 85307,
+      "hit_rate": 10.7,
+      "avg_engagement": 4.16,
+      "channel_type": "테크 리뷰 채널"
+    }
+  ],
+  "radar_data": [
+    {
+      "metric": "구독자",
+      "테크리뷰어_김기술": 61.4,
+      "일상브이로그_이하루": 51.4,
+      "요리왕_박셰프": 100.0
+    },
+    {
+      "metric": "총 조회수",
+      "테크리뷰어_김기술": 94.3,
+      "일상브이로그_이하루": 43.1,
+      "요리왕_박셰프": 100.0
+    },
+    {
+      "metric": "영상당 조회수",
+      "테크리뷰어_김기술": 100.0,
+      "일상브이로그_이하루": 68.5,
+      "요리왕_박셰프": 84.8
+    },
+    {
+      "metric": "히트율",
+      "테크리뷰어_김기술": 56.8,
+      "일상브이로그_이하루": 100.0,
+      "요리왕_박셰프": 66.0
+    },
+    {
+      "metric": "참여율",
+      "테크리뷰어_김기술": 84.6,
+      "일상브이로그_이하루": 100.0,
+      "요리왕_박셰프": 94.3
+    }
+  ]
+}
