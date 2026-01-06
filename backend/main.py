@@ -44,7 +44,10 @@ app.add_middleware(
 )
 
 # 데이터베이스 초기화
-init_database()
+try:
+    init_database()
+except Exception as e:
+    print(f"[WARNING] Database init failed: {e}")
 
 
 # === Pydantic 모델 ===
@@ -424,10 +427,32 @@ async def list_channel_videos(channel_id: str, limit: int = 50):
 @app.get("/")
 async def root():
     """대시보드 페이지 서빙"""
-    frontend_path = Path(__file__).parent.parent / "frontend" / "index.html"
-    if frontend_path.exists():
-        return FileResponse(frontend_path)
-    return {"status": "running", "message": "Visit /docs for API documentation"}
+    # 여러 경로 시도
+    possible_paths = [
+        Path(__file__).parent.parent / "frontend" / "index.html",
+        Path(__file__).parent / ".." / "frontend" / "index.html",
+        Path("/var/task/frontend/index.html"),  # Vercel 경로
+        Path("frontend/index.html"),
+    ]
+
+    for frontend_path in possible_paths:
+        try:
+            if frontend_path.exists():
+                return FileResponse(frontend_path)
+        except:
+            continue
+
+    # 파일 못 찾으면 간단한 HTML 반환
+    return HTMLResponse(content="""
+    <!DOCTYPE html>
+    <html>
+    <head><title>YouTube Analytics API</title></head>
+    <body style="font-family:sans-serif;text-align:center;padding:50px;">
+        <h1>YouTube Analytics API</h1>
+        <p>API is running. Visit <a href="/docs">/docs</a> for documentation.</p>
+    </body>
+    </html>
+    """)
 
 
 @app.get("/api")
@@ -453,8 +478,11 @@ async def health_check():
 
 
 # Vercel serverless handler
-from mangum import Mangum
-handler = Mangum(app)
+try:
+    from mangum import Mangum
+    handler = Mangum(app)
+except ImportError:
+    handler = None
 
 if __name__ == "__main__":
     import uvicorn
