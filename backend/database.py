@@ -3,10 +3,16 @@ SQLite Database Manager for YouTube Analytics
 """
 import sqlite3
 import json
+import os
 from datetime import datetime
 from pathlib import Path
 
-DB_PATH = Path(__file__).parent.parent / "data" / "youtube_analytics.db"
+# Vercel 서버리스 환경에서는 /tmp 사용
+if os.environ.get('VERCEL'):
+    DB_PATH = Path("/tmp/youtube_analytics.db")
+else:
+    DB_PATH = Path(__file__).parent.parent / "data" / "youtube_analytics.db"
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
 def get_connection():
